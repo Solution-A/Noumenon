@@ -22,10 +22,6 @@ public class MainWindow : Window
         this.plugin = plugin;
     }
 
-    public void Dispose()
-    {
-    }
-
     public override void Draw()
     {
         ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
@@ -36,8 +32,6 @@ public class MainWindow : Window
         }
 
         ImGui.Spacing();
-
-        ImGui.Text("Have a goat:");
         ImGui.Indent(55);
         ImGui.Unindent(55);
     }
