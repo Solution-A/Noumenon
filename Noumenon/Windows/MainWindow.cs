@@ -1,4 +1,5 @@
 using Dalamud.Interface.Internal;
+using Dalamud.Interface.Utility;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System;
@@ -15,30 +16,41 @@ public class MainWindow : Window
     {
         this.SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(375, 330),
+            MinimumSize = new Vector2(600, 435),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
         this.plugin = plugin;
     }
 
-    public void Dispose()
-    {
-    }
-
     public override void Draw()
     {
-        ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
+        /*ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
 
         if (ImGui.Button("Show Settings"))
         {
             this.plugin.DrawConfigUI();
+        }*/
+        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.Resizable))
+        {
+            ImGui.TableNextRow();
+            ImGui.TableSetColumnIndex(0);
+            ImGui.TableSetupColumn("designFrameColumn", ImGuiTableColumnFlags.None, 0f);
+            if (ImGui.BeginTable("designList", 1, ImGuiTableFlags.Borders | ImGuiTableFlags.ScrollY))
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    ImGui.TableNextRow();
+                    ImGui.TableSetColumnIndex(0);
+                    ImGui.Selectable("Design" + (i + 1));
+                }
+            }
+            ImGui.EndTable();
+            ImGui.TableSetColumnIndex(1);
+            ImGui.Text("DesignName");
         }
-
-        ImGui.Spacing();
-
-        ImGui.Text("Have a goat:");
-        ImGui.Indent(55);
-        ImGui.Unindent(55);
+        ImGui.EndTable();
     }
+
+    public void Dispose(){ }
 }
