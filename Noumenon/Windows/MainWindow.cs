@@ -15,7 +15,7 @@ public class MainWindow : Window
     {
         this.SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(375, 330),
+            MinimumSize = new Vector2(600, 600),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
@@ -30,9 +30,11 @@ public class MainWindow : Window
         {
             this.plugin.DrawConfigUI();
         }
+        ImGui.Text("Hola");
 
-        ImGui.Spacing();
         ImGui.Indent(55);
         ImGui.Unindent(55);
     }
+
+    public void Dispose(){ }
 }

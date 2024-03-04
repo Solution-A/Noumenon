@@ -30,4 +30,5 @@ public class ConfigWindow : Window
             this.configuration.Save();
         }
     }
+    public void Dispose(){ }
 }
