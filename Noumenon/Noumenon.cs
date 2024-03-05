@@ -4,6 +4,7 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using ECommons;
+using ECommons.Configuration;
 using ECommons.SimpleGui;
 using Noumenon.Gui;
 using Noumenon.Windows;
@@ -51,9 +52,9 @@ namespace Noumenon
                 HelpMessage = "A useful message to display in /xlhelp"
             });
 
-            //this.PluginInterface.UiBuilder.Draw += DrawUI;
-            //this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
-            EzConfigGui.Init(UI.DrawMain);
+            this.PluginInterface.UiBuilder.Draw += DrawUI;
+            this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            //EzConfigGui.Init(UI.DrawMain);
         }
 
         public void Dispose()
