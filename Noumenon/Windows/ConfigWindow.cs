@@ -9,7 +9,7 @@ public class ConfigWindow : Window
 {
     private Configuration configuration;
 
-    public ConfigWindow(Plugin plugin) : base(
+    public ConfigWindow(Noumenon plugin) : base(
         "A Wonderful Configuration Window",
         ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoScrollbar |
         ImGuiWindowFlags.NoScrollWithMouse)

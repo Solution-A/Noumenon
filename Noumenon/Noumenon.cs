@@ -3,12 +3,14 @@ using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using ECommons;
 using Noumenon.Windows;
 using System.IO;
+using System.Reflection;
 
 namespace Noumenon
 {
-    public sealed class Plugin : IDalamudPlugin
+    public sealed class Noumenon : IDalamudPlugin
     {
         public string Name => "Noumenon";
         private const string CommandName = "/noumenon";
@@ -21,12 +23,13 @@ namespace Noumenon
         private ConfigWindow ConfigWindow { get; init; }
         private MainWindow MainWindow { get; init; }
 
-        public Plugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager)
+        public Noumenon(
+            DalamudPluginInterface pluginInterface,
+            ICommandManager commandManager)
         {
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
+            ECommonsMain.Init(PluginInterface, this, ECommons.Module.DalamudReflector);
 
             this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             this.Configuration.Initialize(this.PluginInterface);
@@ -53,7 +56,8 @@ namespace Noumenon
         public void Dispose()
         {
             this.WindowSystem.RemoveAllWindows();
-            
+
+            ECommonsMain.Dispose();
             ConfigWindow.Dispose();
             MainWindow.Dispose();
             
