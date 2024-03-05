@@ -10,10 +10,10 @@ using System.Reflection;
 
 namespace Noumenon.Windows;
 
-public class MainWindow : Window
+public class ManagerWindow : Window
 {
     private Noumenon plugin;
-    public MainWindow(Noumenon plugin) : base(
+    public ManagerWindow(Noumenon plugin) : base(
         "Noumenon Design Manager", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
         this.SizeConstraints = new WindowSizeConstraints
@@ -28,13 +28,12 @@ public class MainWindow : Window
     public override void Draw()
     {
         //ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
-
-        if (ImGui.Button("Show Settings"))
+        
+        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.Resizable | 
+            ImGuiTableFlags.NoPadInnerX | ImGuiTableFlags.NoPadOuterX))
         {
-            this.plugin.DrawConfigUI();
-        }
-        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.Resizable))
-        {
+            ImGuiStyleVar designFramePadding = ImGuiStyleVar.CellPadding;
+            ImGui.PushStyleVar(designFramePadding, 0);
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
             if (ImGui.BeginTable("designList", 1, ImGuiTableFlags.Borders | ImGuiTableFlags.ScrollY))
@@ -43,18 +42,16 @@ public class MainWindow : Window
                 {
                     ImGui.TableNextRow();
                     ImGui.TableSetColumnIndex(0);
-                    ImGui.Selectable("Design" + (i + 1));
+                    ImGui.Selectable("Design" + (i + 1), true);
                 }
             }
             ImGui.EndTable();
+
             ImGui.TableSetColumnIndex(1);
-            ImGuiEx.LineCentered("DesignName", () =>
-            {
-                ImGuiEx.Text("Design Name");
-            });
+            ImGuiEx.TextCentered("Design Name");
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
-            ImGui.Text("Botones");
+            ImGui.Button("+"); ;
         }
         ImGui.EndTable();
     }

@@ -4,6 +4,8 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using ECommons;
+using ECommons.SimpleGui;
+using Noumenon.Gui;
 using Noumenon.Windows;
 using System.IO;
 using System.Reflection;
@@ -21,7 +23,7 @@ namespace Noumenon
         public WindowSystem WindowSystem = new("Noumenon");
 
         private ConfigWindow ConfigWindow { get; init; }
-        private MainWindow MainWindow { get; init; }
+        private ManagerWindow ManagerWindow { get; init; }
 
         public Noumenon(
             DalamudPluginInterface pluginInterface,
@@ -39,18 +41,19 @@ namespace Noumenon
             //var goatImage = this.PluginInterface.UiBuilder.LoadImage(imagePath);
 
             ConfigWindow = new ConfigWindow(this);
-            MainWindow = new MainWindow(this);
+            ManagerWindow = new ManagerWindow(this);
             
             WindowSystem.AddWindow(ConfigWindow);
-            WindowSystem.AddWindow(MainWindow);
+            WindowSystem.AddWindow(ManagerWindow);
 
             this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
                 HelpMessage = "A useful message to display in /xlhelp"
             });
 
-            this.PluginInterface.UiBuilder.Draw += DrawUI;
-            this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            //this.PluginInterface.UiBuilder.Draw += DrawUI;
+            //this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            EzConfigGui.Init(UI.DrawMain);
         }
 
         public void Dispose()
@@ -59,7 +62,7 @@ namespace Noumenon
 
             ECommonsMain.Dispose();
             ConfigWindow.Dispose();
-            MainWindow.Dispose();
+            ManagerWindow.Dispose();
             
             this.CommandManager.RemoveHandler(CommandName);
         }
@@ -67,7 +70,7 @@ namespace Noumenon
         private void OnCommand(string command, string args)
         {
             // in response to the slash command, just display our main ui
-            MainWindow.IsOpen = true;
+            ManagerWindow.IsOpen = true;
         }
 
         private void DrawUI()
