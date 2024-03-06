@@ -23,5 +23,9 @@ namespace Noumenon.IPC
             }
             return [];
         }
+        public static DesignListEntry[] GetDesigns()
+        {
+            return GetDesignListIPC();
+        }
     }
 }

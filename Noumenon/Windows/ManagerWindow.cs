@@ -10,9 +10,11 @@ using System.Reflection;
 
 namespace Noumenon.Windows;
 
-public class ManagerWindow : Window
+public class ManagerWindow : Window, IDisposable
 {
     private Noumenon plugin;
+    private string selectedDesignName = "No Design Selected";
+
     public ManagerWindow(Noumenon plugin) : base(
         "Noumenon Design Manager", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
     {
@@ -27,7 +29,7 @@ public class ManagerWindow : Window
 
     public override void Draw()
     {
-        UI.tabBarHeader();
+        UI.tabBarHeader(plugin);
         //ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
         ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0));
         if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.NoPadInnerX 
@@ -41,15 +43,11 @@ public class ManagerWindow : Window
 
             if (ImGui.BeginChild("designList", new Vector2(0, -ImGui.GetFrameHeightWithSpacing()), true, ImGuiWindowFlags.None))
             {
-                for (int i = 0; i < 20; i++)
-                {
-                    ImGui.Selectable("Design" + (i + 1), false);
-                }
-                ImGui.EndChild();
+                UI.designList(selectedDesignName => this.selectedDesignName = selectedDesignName);
             }
-
+            ImGui.EndChild();
             ImGui.TableSetColumnIndex(1);
-            ImGuiEx.TextCentered("Design Name");
+            ImGuiEx.TextCentered(selectedDesignName);
 
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
