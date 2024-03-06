@@ -34,6 +34,8 @@ namespace Noumenon.Windows
             {
                 ImGui.TabItemButton("Manager");
                 ImGui.TabItemButton("Settings");
+
+                if(ImGui)
             }
         }
     }
