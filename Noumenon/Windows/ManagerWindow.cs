@@ -28,36 +28,37 @@ public class ManagerWindow : Window
     public override void Draw()
     {
         //ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
-        
-        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.Resizable | 
-            ImGuiTableFlags.NoPadInnerX | ImGuiTableFlags.NoPadOuterX))
+        ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0));
+        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.NoPadInnerX | ImGuiTableFlags.NoPadOuterX))
         {
-            ImGuiStyleVar designFramePadding = ImGuiStyleVar.CellPadding;
-            ImGui.PushStyleVar(designFramePadding, 0);
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
-            if (ImGui.BeginTable("designList", 1, ImGuiTableFlags.Borders | ImGuiTableFlags.ScrollY))
+
+            // Begin a child region to contain the list of designs
+            if (ImGui.BeginChild("designList", new Vector2(0, -ImGui.GetFrameHeightWithSpacing()), true, ImGuiWindowFlags.None))
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    ImGui.TableNextRow();
-                    ImGui.TableSetColumnIndex(0);
-                    ImGui.Selectable("Design" + (i + 1), true);
+                    // Draw each selectable design
+                    ImGui.Selectable("Design" + (i + 1), false);
                 }
+                ImGui.EndChild(); // End child region
             }
-            ImGui.EndTable();
 
             ImGui.TableSetColumnIndex(1);
             ImGuiEx.TextCentered("Design Name");
+
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
-            ImGui.Button("+"); ;
+            ImGui.PushItemWidth(-1);
+            ImGui.Button("+");
+            ImGui.PopItemWidth();
         }
         ImGui.EndTable();
+        ImGui.PopStyleVar();
     }
 
     public void Dispose()
     {
-
     }
 }
