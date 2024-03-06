@@ -14,11 +14,11 @@ using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Noumenon.Gui
+namespace Noumenon.Windows
 {
     public unsafe static class UI
     {
-        public static void DrawMain()
+        /*public static void DrawMain()
         {
             KoFiButton.DrawRight();
             ImGuiEx.EzTabBar("Tabs", true, [
@@ -26,6 +26,15 @@ namespace Noumenon.Gui
                 InternalLog.ImGuiTab(),
                 //("Settings", configWindow.Draw, null, true)
             ]);
+        }*/
+        public static void tabBarHeader()
+        {
+            if (ImGui.BeginTabBar("mainTabBar", ImGuiTabBarFlags.NoTooltip | 
+                ImGuiTabBarFlags.NoCloseWithMiddleMouseButton))
+            {
+                ImGui.TabItemButton("Manager");
+                ImGui.TabItemButton("Settings");
+            }
         }
     }
 }

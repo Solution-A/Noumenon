@@ -18,7 +18,7 @@ public class ManagerWindow : Window
     {
         this.SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(600, 440),
+            MinimumSize = new Vector2(600, 430),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
@@ -27,22 +27,25 @@ public class ManagerWindow : Window
 
     public override void Draw()
     {
+        UI.tabBarHeader();
         //ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
         ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0));
-        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.NoPadInnerX | ImGuiTableFlags.NoPadOuterX))
+        if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.NoPadInnerX 
+            | ImGuiTableFlags.NoPadOuterX))
         {
+            ImGui.TableSetupColumn("Column 1", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHide, ImGui.GetWindowWidth() * 0.3f);
+            ImGui.TableSetupColumn("Column 2", ImGuiTableColumnFlags.WidthStretch | ImGuiTableColumnFlags.NoHide);
+
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
 
-            // Begin a child region to contain the list of designs
             if (ImGui.BeginChild("designList", new Vector2(0, -ImGui.GetFrameHeightWithSpacing()), true, ImGuiWindowFlags.None))
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    // Draw each selectable design
                     ImGui.Selectable("Design" + (i + 1), false);
                 }
-                ImGui.EndChild(); // End child region
+                ImGui.EndChild();
             }
 
             ImGui.TableSetColumnIndex(1);
