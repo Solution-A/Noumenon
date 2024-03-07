@@ -2,7 +2,7 @@ using Dalamud.Configuration;
 using Dalamud.Plugin;
 using System;
 
-namespace Noumenon
+namespace Noumenon.Configuration
 {
     [Serializable]
     public class Configuration : IPluginConfiguration
@@ -22,7 +22,7 @@ namespace Noumenon
 
         public void Save()
         {
-            this.pluginInterface!.SavePluginConfig(this);
+            pluginInterface!.SavePluginConfig(this);
         }
     }
 }

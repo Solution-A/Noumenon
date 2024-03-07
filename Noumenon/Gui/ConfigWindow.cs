@@ -1,4 +1,5 @@
 using System;
+using Dalamud.Configuration;
 using System.Numerics;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
@@ -7,9 +8,9 @@ namespace Noumenon.Windows;
 
 public class ConfigWindow : Window
 {
-    private Configuration configuration;
+    private Configuration.Configuration configuration;
 
-    public ConfigWindow(Plugin plugin) : base(
+    public ConfigWindow(Noumenon plugin) : base(
         "A Wonderful Configuration Window",
         ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoScrollbar |
         ImGuiWindowFlags.NoScrollWithMouse)
