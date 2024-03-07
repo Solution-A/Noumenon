@@ -4,6 +4,7 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using ECommons.ImGuiMethods;
 using ImGuiNET;
+using Noumenon.IPC;
 using System;
 using System.Numerics;
 using System.Reflection;
@@ -29,7 +30,7 @@ public class ManagerWindow : Window, IDisposable
 
     public override void Draw()
     {
-        UI.tabBarHeader(plugin);
+        GuiLogic.tabBarHeader(plugin);
         //ImGui.Text($"The random config bool is {this.plugin.Configuration.SomePropertyToBeSavedAndWithADefault}");
         ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, new Vector2(0, 0));
         if (ImGui.BeginTable("designFrame", 2, ImGuiTableFlags.Borders | ImGuiTableFlags.NoPadInnerX 
@@ -43,7 +44,7 @@ public class ManagerWindow : Window, IDisposable
 
             if (ImGui.BeginChild("designList", new Vector2(0, -ImGui.GetFrameHeightWithSpacing()), true, ImGuiWindowFlags.None))
             {
-                UI.designList(selectedDesignName => this.selectedDesignName = selectedDesignName);
+                glamourerDesignsToSelectables();
             }
             ImGui.EndChild();
             ImGui.TableSetColumnIndex(1);
@@ -57,6 +58,12 @@ public class ManagerWindow : Window, IDisposable
         }
         ImGui.EndTable();
         ImGui.PopStyleVar();
+    }
+
+    private void glamourerDesignsToSelectables()
+    {
+        DesignListEntry[] designListGlamourer = GlamourerManager.GetDesigns();
+        GuiLogic.designList(selectedDesignName => this.selectedDesignName = selectedDesignName, designListGlamourer);
     }
 
     public void Dispose()

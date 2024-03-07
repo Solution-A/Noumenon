@@ -1,1 +1,3 @@
-global using DesignListEntry = (string Name, System.Guid Identifier);
+global using DesignListEntry = (
+    string Name, System.Guid Identifier
+    );

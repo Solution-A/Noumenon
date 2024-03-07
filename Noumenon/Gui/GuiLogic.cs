@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Noumenon.Windows
 {
-    public unsafe static class UI
+    public unsafe static class GuiLogic
     {
         /*public static void DrawMain()
         {
@@ -49,14 +49,14 @@ namespace Noumenon.Windows
                 ImGui.EndTabBar();
             }
         }
-        public static void designList(Action<string> onSelectDesign)
+        public static void designList(Action<string> onSelectDesign, DesignListEntry[] designList)
         {
-            for (int i = 0; i < 20; i++)
+            Array.Sort(designList);
+            for (int i = 0; i < designList.Length; i++)
             {
-                if (ImGui.Selectable("Design" + (i+1), false))
-                {
-                    onSelectDesign?.Invoke("Design" + (i + 1));
-                }
+                string designName = designList[i].Name;
+                if (ImGui.Selectable(designName))
+                    onSelectDesign?.Invoke(designName);
             }
         }
     }

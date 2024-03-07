@@ -6,7 +6,6 @@ using Dalamud.Plugin.Services;
 using ECommons;
 using ECommons.Configuration;
 using ECommons.SimpleGui;
-using Noumenon.Gui;
 using Noumenon.Windows;
 using System.IO;
 using System.Reflection;
@@ -20,7 +19,7 @@ namespace Noumenon
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
-        public Configuration Configuration { get; init; }
+        public Configuration.Configuration Configuration { get; init; }
         public WindowSystem WindowSystem = new("Noumenon");
 
         private ConfigWindow ConfigWindow { get; init; }
@@ -34,7 +33,7 @@ namespace Noumenon
             this.CommandManager = commandManager;
             ECommonsMain.Init(PluginInterface, this, ECommons.Module.DalamudReflector);
 
-            this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration.Configuration ?? new Configuration.Configuration();
             this.Configuration.Initialize(this.PluginInterface);
 
             // you might normally want to embed resources and load them from the manifest stream
