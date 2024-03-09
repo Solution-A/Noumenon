@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Noumenon.IPC
 {
-    public static class GlamourerManager
+    public class GlamourerManager
     {
         public const string LabelGetDesignList = "Glamourer.GetDesignList";
-        static DesignListEntry[] GetDesignListIPC()
+        public DesignListEntry[] GetDesignListIPC()
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Noumenon.IPC
             }
             return [];
         }
-        public static DesignListEntry[] GetDesigns()
+        public DesignListEntry[] GetDesigns()
         {
             return GetDesignListIPC();
         }

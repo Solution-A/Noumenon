@@ -7,6 +7,18 @@
         "requested": "[2.1.12, )",
         "resolved": "2.1.12",
         "contentHash": "Sc0PVxvgg4NQjcI8n10/VfUQBAS4O+Fw2pZrAqBdRMbthYGeogzu5+xmIGCGmsEZ/ukMOBuAqiNiB5qA3MRalg=="
+      },
+      "Penumbra.String": {
+        "type": "Direct",
+        "requested": "[1.0.4, )",
+        "resolved": "1.0.4",
+        "contentHash": "fva7Nk0HzQj85FMplx9bwN9BCZnHvdKHlMrvtkekXJeyKfiivRNHnTe9jhSEASgYXqOLsdV9PzJgq7EblN5+Rg=="
+      },
+      "ecommons": {
+        "type": "Project"
+      },
+      "penumbra.api": {
+        "type": "Project"
       }
     }
   }

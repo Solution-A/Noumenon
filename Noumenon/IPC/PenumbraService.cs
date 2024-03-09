@@ -1,5 +1,7 @@
 using Dalamud.Plugin;
 using ImGuizmoNET;
+using Penumbra.Api.Enums;
+using Penumbra.Api.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Noumenon.IPC
 {
+    using CurrentSettings = ValueTuple<PenumbraApiEc, (bool, int, IDictionary<string, IList<string>>, bool)?>;
     public readonly record struct Mod(string Name, string DirectoryName) : IComparable<Mod>
     {
         public int CompareTo(Mod other)
@@ -30,8 +33,11 @@ namespace Noumenon.IPC
     }
     public unsafe class PenumbraService : IDisposable
     {
-        private readonly DalamudPluginInterface _pluginInterface;
-        private FuncSubscriber<IList<(string, string)>> _getMods;
+        private FuncSubscriber<IList<(string, string)>> getMods;
+        private FuncSubscriber<ApiCollectionType, string> currentCollection;
+        private FuncSubscriber<int, (bool, bool, string)> objectCollection;
+        private FuncSubscriber<string, string, string, bool, CurrentSettings> getCurrentSettings;
+        public bool Available { get; private set; }
         public IReadOnlyList<(Mod Mod, ModSettings Settings)> GetMods()
         {
             if (!Available)
@@ -39,10 +45,10 @@ namespace Noumenon.IPC
 
             try
             {
-                var allMods = _getMods.Invoke();
-                var collection = _currentCollection.Invoke(ApiCollectionType.Current);
+                var allMods = getMods.Invoke();
+                var collection = currentCollection.Invoke(ApiCollectionType.Current);
                 return allMods
-                    .Select(m => (m.Item1, m.Item2, _getCurrentSettings.Invoke(collection, m.Item1, m.Item2, true)))
+                    .Select(m => (m.Item1, m.Item2, getCurrentSettings.Invoke(collection, m.Item1, m.Item2, true)))
                     .Where(t => t.Item3.Item1 is PenumbraApiEc.Success)
                     .Select(t => (new Mod(t.Item2, t.Item1),
                         !t.Item3.Item2.HasValue
@@ -56,9 +62,17 @@ namespace Noumenon.IPC
             }
             catch (Exception ex)
             {
-                Glamourer.Log.Error($"Error fetching mods from Penumbra:\n{ex}");
+                ECommons.Logging.InternalLog.Error($"Error fetching mods from Penumbra:\n{ex}");
                 return Array.Empty<(Mod Mod, ModSettings Settings)>();
             }
+        }
+        public string GetCurrentPlayerCollection()
+        {
+            if (!Available)
+                return string.Empty;
+
+            var (valid, _, name) = objectCollection.Invoke(0);
+            return valid ? name : string.Empty;
         }
         public void Dispose()
         {

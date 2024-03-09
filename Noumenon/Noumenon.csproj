@@ -33,4 +33,9 @@
   <ItemGroup>
       <Folder Include="Configuration\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Penumbra.Api" Version="1.0.14" />
+    <PackageReference Include="Penumbra.String" Version="1.0.4" />
+  </ItemGroup>
 </Project>

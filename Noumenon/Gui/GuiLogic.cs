@@ -2,11 +2,13 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using Dalamud.Utility;
+using ECommons;
 using ECommons.DalamudServices;
 using ECommons.GameHelpers;
 using ECommons.ImGuiMethods;
 using ECommons.Logging;
 using ImGuiNET;
+using Noumenon.IPC;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,16 +70,27 @@ namespace Noumenon.Windows
             }
         }
 
-        public static string[] designListToNameList(DesignListEntry[] designList)
+        public static string[] designListToNameList(DesignListEntry[] designListGlamourer)
         {
-            string[] designNamesArray = new string[designList.Length];
-            Array.Sort(designList);
-            for (int i = 0; i < designList.Length; i++)
+            string[] designNamesArray = new string[designListGlamourer.Length];
+            Array.Sort(designListGlamourer);
+            for (int i = 0; i < designListGlamourer.Length; i++)
             {
-                string designName = designList[i].Name;
+                string designName = designListGlamourer[i].Name;
                 designNamesArray[i] = designName;
             }
             return designNamesArray;
+        }
+
+        public static string[] modsToCombo(IReadOnlyList<(Mod Mod, ModSettings Settings)> modList)
+        {
+            int modCount = modList.Count;
+            string[] modNameList = new string[modCount];
+            for (int i = 0; i < modCount; i++)
+            {
+                modNameList[i] = modList[i].Mod.Name;
+            }
+            return modNameList;
         }
     }
 }

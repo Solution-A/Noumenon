@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Reflection.PortableExecutable;
 using static FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsFinder;
 using Noumenon.Utils;
+using System.Collections.Generic;
 
 namespace Noumenon.Windows;
 
@@ -33,7 +34,8 @@ public class ManagerWindow : Window, IDisposable
     int currentDesignComboItem = 0;
     int currentModComboItem = 0;
     int modPrio = 0;
-    DesignListEntry[] designListGlamourer = GlamourerManager.GetDesigns();
+    GlamourerManager glamourerManager = new GlamourerManager();
+    PenumbraService penumbraService = new PenumbraService();
 
     public ManagerWindow(Noumenon plugin) : base(
         "Noumenon Design Manager", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
@@ -111,6 +113,7 @@ public class ManagerWindow : Window, IDisposable
             ImGui.InputTextWithHint("##name", "Preset name", ref presetNameInput, 100);
 
             ImGui.TableSetColumnIndex(2);
+            DesignListEntry[] designListGlamourer = glamourerManager.GetDesigns();
             ImGui.Combo("##glamourerDesignsCombo", ref currentDesignComboItem, GuiLogic.designListToNameList(designListGlamourer), designListGlamourer.Length);
             ImGui.SameLine();
             ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Clone);
@@ -171,7 +174,8 @@ public class ManagerWindow : Window, IDisposable
                 ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Plus);
                 ImGui.TableSetColumnIndex(1);
                 ImGuiEx.SetNextItemFullWidth();
-                ImGui.Combo("##penumbraModCombo", ref currentModComboItem, GuiLogic.designListToNameList(designListGlamourer), designListGlamourer.Length);
+                IReadOnlyList<(Mod Mod, ModSettings Settings)> modList = penumbraService.GetMods();
+                ImGui.Combo("##penumbraModCombo", ref currentModComboItem, GuiLogic.modsToCombo(modList), modList.Count);
 
             }
             ImGui.EndTable();
