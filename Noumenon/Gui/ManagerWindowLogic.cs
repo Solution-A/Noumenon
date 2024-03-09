@@ -7,8 +7,10 @@ using ECommons.DalamudServices;
 using ECommons.GameHelpers;
 using ECommons.ImGuiMethods;
 using ECommons.Logging;
+using Glamourer.Interop.Penumbra;
 using ImGuiNET;
 using Noumenon.IPC;
+using Noumenon.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace Noumenon.Windows
 {
-    public unsafe static class GuiLogic
+    public unsafe static class ManagerWindowLogic
     {
         /*public static void DrawMain()
         {
@@ -91,6 +93,34 @@ namespace Noumenon.Windows
                 modNameList[i] = modList[i].Mod.Name;
             }
             return modNameList;
+        }
+
+        public static void addMod(bool modEnabled, int modPrio)
+        {
+            if (ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Plus))
+            {
+                ImGui.TableSetColumnIndex(0);
+                ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Trash);
+                ImGui.SameLine();
+                ElementUtils.alignInCol(ElementUtils.Alignment.Right);
+                ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Sync);
+                ImGui.TableSetColumnIndex(1);
+                ImGui.Text("Mod1");
+                ImGui.TableSetColumnIndex(2);
+                ImGui.Text("Directory1");
+                ImGui.TableSetColumnIndex(3);
+                ElementUtils.alignInCol(ElementUtils.Alignment.Middle);
+                ImGui.Checkbox("##checkPresetEnabled", ref modEnabled);
+                ImGui.TableSetColumnIndex(4);
+                ImGuiEx.SetNextItemFullWidth();
+                ImGui.DragInt("", ref modPrio, 0.1f, 0, 99);
+                ImGui.TableSetColumnIndex(5);
+                ElementUtils.setNextItemFullWidthCol();
+                ImGui.Button("Try Applying");
+                ImGui.TableNextRow();
+                PluginLog.Debug($"Applying design");
+
+            }
         }
     }
 }
