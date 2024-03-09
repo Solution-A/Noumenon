@@ -49,15 +49,22 @@ namespace Noumenon.Windows
                 ImGui.EndTabBar();
             }
         }
-        public static void designNamesToSelectables(Action<string> onSelectDesign, ref bool presetSelected)
+        public static void designNamesToSelectables(Action<string> onSelectDesign, ref bool presetSelected, ref string selectedSelectable)
         {
             for (int i = 0; i < 20; i++)
             {
-                string selectableName = "Preset" + (i + 1) + "_Preset" + (i + 1);
+                string selectableID= "#Preset" + (i+1);
+                if (selectedSelectable.Equals(selectableID))
+                {
+                    presetSelected = true;
+                }
+                string selectableName = " Preset" + (i + 1) + "_Preset" + (i + 1);
                 if (ImGui.Selectable(selectableName, ref presetSelected))
                 {
+                    selectedSelectable = selectableID;
                     onSelectDesign?.Invoke(selectableName);
                 }
+                presetSelected = false;
             }
         }
 
