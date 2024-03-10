@@ -3,7 +3,7 @@
   <Import Project="Dalamud.Plugin.Bootstrap.targets" />
 
   <PropertyGroup>
-    <Authors></Authors>
+    <Authors>Solution-A</Authors>
     <Company></Company>
     <Version>0.0.0.1</Version>
     <Description>Idk what I'm doing</Description>
@@ -15,9 +15,6 @@
 
   <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
@@ -30,8 +27,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ECommons\ECommons\ECommons.csproj" />
+    <ProjectReference Include="..\Penumbra.Api\Penumbra.Api.csproj" />
   </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Configuration\" />
-    </ItemGroup>
+
+  <ItemGroup>
+      <Folder Include="Configuration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Penumbra.String" Version="1.0.4" />
+  </ItemGroup>
 </Project>

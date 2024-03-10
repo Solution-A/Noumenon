@@ -41,7 +41,7 @@ namespace Noumenon
             //var goatImage = this.PluginInterface.UiBuilder.LoadImage(imagePath);
 
             ConfigWindow = new ConfigWindow(this);
-            ManagerWindow = new ManagerWindow(this);
+            ManagerWindow = new ManagerWindow(this, PluginInterface);
             
             WindowSystem.AddWindow(ConfigWindow);
             WindowSystem.AddWindow(ManagerWindow);
