@@ -23,17 +23,8 @@ using System.Threading.Tasks;
 
 namespace Noumenon.Windows
 {
-    public unsafe static class ManagerWindowLogic
+    public static class ManagerWindowLogic
     {
-        /*public static void DrawMain()
-        {
-            KoFiButton.DrawRight();
-            ImGuiEx.EzTabBar("Tabs", true, [
-                ("Manager", ManagerWindowTest.Draw, null, true),
-                InternalLog.ImGuiTab(),
-                //("Settings", configWindow.Draw, null, true)
-            ]);
-        }*/
         public static void tabBarHeader(Noumenon noumenon)
         {
             if (ImGui.BeginTabBar("mainTabBar", ImGuiTabBarFlags.NoTooltip |
@@ -97,29 +88,27 @@ namespace Noumenon.Windows
 
         public static void addMod(bool modEnabled, int modPrio)
         {
-            if (ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Plus))
-            {
+            for (int i = 0; i<5; i++) {
+                ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
                 ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Trash);
                 ImGui.SameLine();
                 ElementUtils.alignInCol(ElementUtils.Alignment.Right);
                 ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Sync);
                 ImGui.TableSetColumnIndex(1);
-                ImGui.Text("Mod1");
+                ImGuiEx.TextCentered("Mod1");
                 ImGui.TableSetColumnIndex(2);
-                ImGui.Text("Directory1");
+                ImGuiEx.TextCentered("Directory1");
                 ImGui.TableSetColumnIndex(3);
                 ElementUtils.alignInCol(ElementUtils.Alignment.Middle);
-                ImGui.Checkbox("##checkPresetEnabled", ref modEnabled);
+                ImGuiEx.TextCentered("✓");
                 ImGui.TableSetColumnIndex(4);
                 ImGuiEx.SetNextItemFullWidth();
-                ImGui.DragInt("", ref modPrio, 0.1f, 0, 99);
+                ImGuiEx.TextCentered(modPrio.ToString());
                 ImGui.TableSetColumnIndex(5);
                 ElementUtils.setNextItemFullWidthCol();
                 ImGui.Button("Try Applying");
-                ImGui.TableNextRow();
                 PluginLog.Debug($"Applying design");
-
             }
         }
     }
