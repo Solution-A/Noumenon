@@ -28,10 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ECommons\ECommons\ECommons.csproj" />
     <ProjectReference Include="..\Penumbra.Api\Penumbra.Api.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-      <Folder Include="Configuration\" />
+    <ProjectReference Include="..\OtterGui\OtterGui.csproj" />
+    <ProjectReference Include="..\OtterGui\OtterGuiInternal\OtterGuiInternal.csproj" />
   </ItemGroup>
 
   <ItemGroup>

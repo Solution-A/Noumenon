@@ -4,3 +4,6 @@
 [submodule "Penumbra/Penumbra.Api"]
 	path = Penumbra/Penumbra.Api
 	url = https://github.com/Ottermandias/Penumbra.Api.git
+[submodule "OtterGui"]
+	path = OtterGui
+	url = https://github.com/Ottermandias/OtterGui.git

@@ -20,6 +20,9 @@ using static FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsFinder;
 using Noumenon.Utils;
 using System.Collections.Generic;
 using Glamourer.Interop.Penumbra;
+using OtterGui;
+using Noumenon.Configuration;
+using Dalamud.Interface.Utility.Raii;
 
 namespace Noumenon.Windows;
 
@@ -27,12 +30,12 @@ public class ManagerWindow : Window, IDisposable
 {
     private Noumenon plugin;
     DalamudPluginInterface pluginInterface;
-    private string selectedDesignName = " Preset1_Preset1";
     string selectedSelectable = "#Preset1";
     bool presetSelected = false;
     bool presetEnabled = true;
     bool modEnabled = true;
     string presetNameInput = "";
+    List<Preset> presets = new List<Preset>();
     int currentDesignComboItem = 0;
     int currentModComboItem = 0;
     int modPrio = 0;
@@ -75,7 +78,8 @@ public class ManagerWindow : Window, IDisposable
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
             ImGui.PushItemWidth(-1);
-            ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Plus);
+            var itemSelector = new ItemSelector<Preset>(presets, ItemSelector<Preset>.Flags.Add);
+            itemSelector.Draw(22);
             ImGui.SameLine();
             ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Clone);
             ImGui.SameLine();
@@ -90,7 +94,7 @@ public class ManagerWindow : Window, IDisposable
 
     private void presetMenu() {
         ImGui.TableSetColumnIndex(1);
-        ImGuiEx.TextCentered(selectedDesignName);
+        ImGuiEx.TextCentered("uwu");
         ImGui.Separator();
         if (ImGui.BeginTable("preseFrame", 3, ImGuiTableFlags.Borders))
         {
@@ -130,7 +134,7 @@ public class ManagerWindow : Window, IDisposable
         if (ImGui.CollapsingHeader("Mod Associations##global", ImGuiTreeNodeFlags.DefaultOpen))
         {
             ImGui.Button("Try Applying All Associated Mods to Anima##softApplyMods");
-            if (ImGui.BeginTable("preseFrame", 6, ImGuiTableFlags.Borders))
+            if (ImGui.BeginTable("##presetFrame", 6, ImGuiTableFlags.Borders))
             {
                 ImGui.TableSetupColumn("##columnModAssociations1", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHide, ImGui.GetWindowWidth() * 0.1f);
                 ImGui.TableSetupColumn("##columnModAssociations2", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHide, ImGui.GetWindowWidth() * 0.20f);
@@ -150,17 +154,27 @@ public class ManagerWindow : Window, IDisposable
                 ImGuiEx.TextCentered("Priority");
 
                 ImGui.TableNextRow();
-                ManagerWindowLogic.addMod(true, 1);
-
                 ImGui.TableSetColumnIndex(0);
                 ElementUtils.alignInCol(ElementUtils.Alignment.Right);
-                ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Plus);
+                if (ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Plus))
+                {
+                    //addNewMod();
+                }
                 ImGui.TableSetColumnIndex(1);
                 ImGuiEx.SetNextItemFullWidth();
                 PenumbraService penumbraService = new PenumbraService(pluginInterface);
-
                 IReadOnlyList<(Mod Mod, ModSettings Settings)> modList = penumbraService.GetMods();
                 ImGui.Combo("##penumbraModCombo", ref currentModComboItem, ManagerWindowLogic.modsToCombo(modList), modList.Count);
+                ImGui.TableSetColumnIndex(2);
+                ImGui.Text("Directory1");
+                ImGui.TableSetColumnIndex(3);
+                ElementUtils.alignInCol(ElementUtils.Alignment.Middle);
+                ImGui.Checkbox("##checkPresetEnabled", ref modEnabled);
+                ImGui.TableSetColumnIndex(4);
+                ImGuiEx.SetNextItemFullWidth();
+                ImGui.DragInt("", ref modPrio, 0.1f, 0, 99);
+
+                ManagerWindowLogic.addMod(true, 6);
 
             }
             ImGui.EndTable();
@@ -172,7 +186,7 @@ public class ManagerWindow : Window, IDisposable
 
     private void glamourerDesignsToSelectables()
     {
-        ManagerWindowLogic.designNamesToSelectables(selectedDesignName => this.selectedDesignName = selectedDesignName, ref presetSelected, ref selectedSelectable);
+        ManagerWindowLogic.designNamesToSelectables(selectedDesignName => this.newName = selectedDesignName, ref presetSelected, ref selectedSelectable);
     }
 
     public void Dispose()
