@@ -34,6 +34,7 @@ public class ManagerWindow : Window, IDisposable
     bool presetSelected = false;
     bool presetEnabled = true;
     bool modEnabled = true;
+    string newName = "";
     string presetNameInput = "";
     List<Preset> presets = new List<Preset>();
     int currentDesignComboItem = 0;
@@ -78,14 +79,16 @@ public class ManagerWindow : Window, IDisposable
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
             ImGui.PushItemWidth(-1);
-            var itemSelector = new ItemSelector<Preset>(presets, ItemSelector<Preset>.Flags.Add);
-            itemSelector.Draw(22);
+            var itemSelectorPlus = new ItemSelector<Preset>(presets, ItemSelector<Preset>.Flags.Add);
+            itemSelectorPlus.Draw(22);
             ImGui.SameLine();
-            ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Clone);
+            var itemSelectorClone = new ItemSelector<Preset>(presets, ItemSelector<Preset>.Flags.Duplicate);
+            itemSelectorClone.Draw(22);
             ImGui.SameLine();
             ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.FolderPlus);
             ImGui.SameLine();
-            ImGuiEx.SmallIconButton(Dalamud.Interface.FontAwesomeIcon.Trash);
+            var itemSelectorDelete = new ItemSelector<Preset>(presets, ItemSelector<Preset>.Flags.Delete);
+            itemSelectorDelete.Draw(22);
             ImGui.PopItemWidth();
         }
         ImGui.EndTable();
